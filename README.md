@@ -12,3 +12,15 @@ In progress
 Each schema will be versioned, and schema is only available for a running app.
 
 History of schema changes will not be available.
+
+
+---
+
+Instructions
+
+1. start the app by running `make serve`
+2. add collections from the admin UI.
+3. restart the server to rebuild client.
+4. visit `/api/openapi` to see the go client
+
+5. next step WIP: adding services to return openapi schema instead of api design

@@ -13,8 +13,10 @@ import (
 	"github.com/pocketbase/pocketbase/core"
 )
 
-const ApiSpecOutput = "./api/spec.go"
-const OpenApiSpec = "openapi.json"
+const (
+	ApiSpecOutput = "./api/spec.go"
+	OpenApiSpec   = "openapi.json"
+)
 
 type API struct {
 	app     *pocketbase.PocketBase

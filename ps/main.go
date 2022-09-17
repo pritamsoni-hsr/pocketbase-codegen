@@ -31,7 +31,7 @@ func Run() {
 			return err
 		}
 		api.GenSchema()
-		return api.BuildSchema()
+		return nil
 	})
 
 	if err := api.app.Start(); err != nil {
@@ -88,15 +88,13 @@ func (api *API) GenSchema() {
 	package main
 
 	import (
-		"goa.design/goa/v3/dsl"
+		. "goa.design/goa/v3/dsl"
 	)
 
 	`
 	for _, col := range g.collections {
 		d.Collection = col
-		e := d.InitOptions()
-		fmt.Println(e)
-		tmpl += e
+		tmpl += d.InitOptions()
 	}
 
 	ioutil.WriteFile("./api/spec.go", []byte(tmpl), 0777)

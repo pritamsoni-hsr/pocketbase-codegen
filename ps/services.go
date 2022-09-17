@@ -44,13 +44,13 @@ func GenService(name string) string {
 			Payload({{.Type}})
 			Result({{.Type}})
 			HTTP(func() {
-				PATCH("/api/collections/{{.Name}}/records:id")
+				PATCH("/api/collections/{{.Name}}/records/:id")
 			})
 		})
 
 		Method("delete", func() {
 			HTTP(func() {
-				DELETE("/api/collections/{{.Name}}/records:id")
+				DELETE("/api/collections/{{.Name}}/records/:id")
 			})
 		})
 

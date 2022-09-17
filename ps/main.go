@@ -13,7 +13,10 @@ import (
 	"github.com/pocketbase/pocketbase/core"
 )
 
-const ApiSpecOutput = "./api/spec.go"
+const (
+	ApiSpecOutput = "./api/spec.go"
+	OpenApiSpec   = "openapi.json"
+)
 
 type API struct {
 	app     *pocketbase.PocketBase
@@ -57,7 +60,7 @@ func (api *API) registerRoutes(e *core.ServeEvent) error {
 }
 
 func (be *API) GetSchema(c echo.Context) error {
-	f, err := ioutil.ReadFile(ApiSpecOutput)
+	f, err := ioutil.ReadFile(OpenApiSpec)
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -100,6 +103,9 @@ func (api *API) GenSchema() {
 	for _, col := range g.collections {
 		d.Collection = col
 		tmpl += d.InitOptions()
+		tmpl += "\n"
+		tmpl += GenService(d.Collection.Name)
+
 	}
 
 	ioutil.WriteFile(ApiSpecOutput, []byte(tmpl), 0644)

@@ -9,7 +9,7 @@ var _ = API("api", func() {
 	Version("0.0.1")
 	Server("http", func() {
 		Host("development", func() {
-			URI("http://localhost:8080")
+			URI("http://localhost:8090")
 		})
 	})
 })

@@ -1,7 +1,7 @@
 package ps
 
 import (
-	"os"
+	"bytes"
 	"text/template"
 )
 
@@ -54,16 +54,18 @@ func GenService(name string) string {
 			})
 		})
 
-		Files("./abc", "users.json")
+		Files("./openapi", "{{.Name}}.json")
 	})
 
 	`)
 	if err != nil {
 		panic(err)
 	}
-	err = tmpl.Execute(os.Stdout, dslService)
+
+	var tpl bytes.Buffer
+	err = tmpl.Execute(&tpl, dslService)
 	if err != nil {
 		panic(err)
 	}
-	return ""
+	return tpl.String()
 }

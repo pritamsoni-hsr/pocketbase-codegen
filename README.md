@@ -21,6 +21,6 @@ Instructions
 1. start the app by running `make serve`
 2. add collections from the admin UI.
 3. restart the server to rebuild client.
-4. visit `/api/openapi` to see the go client
+4. visit http://localhost:8090/api/openapi to see the go client
 
 5. next step WIP: adding services to return openapi schema instead of api design

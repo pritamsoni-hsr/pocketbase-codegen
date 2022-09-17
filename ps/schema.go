@@ -73,46 +73,48 @@ func (g *Gen) ParseSchema() string {
 }
 
 func ParseSchemaField(s *schema.SchemaField) string {
+	var dslType string
 	switch s.Type {
 	case schema.FieldTypeText:
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.String)`, s.Name)
+		dslType = "dsl.String"
 
 	case schema.FieldTypeNumber:
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.Float64)`, s.Name)
+		dslType = "dsl.Float64"
 
 	case schema.FieldTypeBool:
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.Boolean)`, s.Name)
+		dslType = "dsl.Boolean"
 
 	case schema.FieldTypeEmail:
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.String)`, s.Name)
+		dslType = "dsl.String"
 
 	case schema.FieldTypeUrl:
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.String) `, s.Name)
+		dslType = "dsl.String"
 
 	case schema.FieldTypeDate:
 		// todo: add datetype
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.String)`, s.Name)
+		dslType = "dsl.String"
 
 	case schema.FieldTypeSelect:
 		// todo: add options with arrayof
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.String)`, s.Name)
+		dslType = "dsl.String"
 
 	case schema.FieldTypeJson:
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.Any)`, s.Name)
+		dslType = "dsl.Any"
 
 	case schema.FieldTypeFile:
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.String)`, s.Name)
+		dslType = "dsl.String"
 
 	case schema.FieldTypeRelation:
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.String)`, s.Name)
+		dslType = "dsl.String"
 
 	case schema.FieldTypeUser:
-		return fmt.Sprintf(`dsl.Attribute("%s", dsl.String)`, s.Name)
+		dslType = "dsl.String"
 
 	default:
 		fmt.Println("Missing or unknown field field type.")
+		return ""
 	}
-	return ""
+	return fmt.Sprintf(`dsl.Attribute("%s", %s)`, s.Name, dslType)
 }
 
 func Title(s string) string {

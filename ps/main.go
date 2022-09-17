@@ -5,12 +5,15 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os/exec"
 
 	"github.com/labstack/echo/v5"
 
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 )
+
+const ApiSpecOutput = "./api/spec.go"
 
 type API struct {
 	app     *pocketbase.PocketBase
@@ -54,7 +57,12 @@ func (api *API) registerRoutes(e *core.ServeEvent) error {
 }
 
 func (be *API) GetSchema(c echo.Context) error {
-	return c.String(200, "WIP")
+	f, err := ioutil.ReadFile(ApiSpecOutput)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return c.String(200, string(f))
 }
 
 func (be *API) ValidateSchema(c echo.Context) error {
@@ -69,10 +77,7 @@ func (be *API) ValidateSchema(c echo.Context) error {
 }
 
 func (api *API) GenSchema() {
-	d, err := NewFile("none.txt")
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	d := Gen{}
 
 	collections, err := api.GetCollections()
 	if err != nil {
@@ -85,7 +90,7 @@ func (api *API) GenSchema() {
 	}
 
 	tmpl := `
-	package main
+	package api
 
 	import (
 		. "goa.design/goa/v3/dsl"
@@ -97,5 +102,12 @@ func (api *API) GenSchema() {
 		tmpl += d.InitOptions()
 	}
 
-	ioutil.WriteFile("./api/spec.go", []byte(tmpl), 0777)
+	ioutil.WriteFile(ApiSpecOutput, []byte(tmpl), 0644)
+	cmd := exec.Command("make", "format")
+	_, err = cmd.Output()
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
 }
